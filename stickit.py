@@ -18,16 +18,19 @@ Tnora_pre=[]
 k=Tnora.find_all('a')[-71::2]
 for i in range(len(Tnora.find_all('a')[-71::2])):
     Tnora_pre.append(i)
-str_test=re.match(r"(<a href=\"http://liansai.166cai.cn/team/)([0-9]{0,5})(\" target=\"_blank\">)([\u4e00-\u9fa5]*)(.*)",str(k[1]))
-str_test.group(2,4)
+#str_test=re.match(r"(<a href=\"http://liansai.166cai.cn/team/)([0-9]{0,5})(\" target=\"_blank\">)([\u4e00-\u9fa5]*)(.*)",str(k[1]))
+#str_test.group(2,4)
 nora_s=[]
 rule=r"(<a href=\"http://liansai.166cai.cn/team/)([0-9]{0,5})(\" target=\"_blank\">)([\u4e00-\u9fa5]*)(.*)"
 i=0
 for i in range(1,len(k)):
     str_test=re.match(rule,str(k[i]))
     nora_s.append(str_test.group(2,4))
-nora_s[6]
+
 nora_d=dict(nora_s)
+def invert_dict3(d):
+    return dict(zip(d.values(),d.keys()))
+nora_d_v=invert_dict3(nora_d)
 
 soua_get=requests.get(soua_h)
 soua_soup=Bs(soua_get.content,'lxml')
