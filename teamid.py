@@ -57,3 +57,12 @@ def allteamid(mode=1):
         return tidall
     if mode==2:
         return tnall
+    if mode==32:
+        tid=[]
+        i=0
+        j=0
+        for i in range(len(tn32)):
+            tid.append([])
+            for j in range(len(tn32[i])):
+                tid[i].append(tnall[tn32[i][j]])
+        return tid
