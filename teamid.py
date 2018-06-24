@@ -5,6 +5,7 @@ import requests
 #https://data.huanhuba.com/leagueData/getSingleMatch?seasonId=3057&teamId=31664&type=home		欧洲杯资格赛
 #https://data.huanhuba.com/leagueData/getTeamTreeList?seasonId=3057			teamtree
 #https://data.huanhuba.com/leagueData/getSingleMatch?seasonId=12654&teamId=31664&type=home		国际友谊赛
+#tbody[0-2#全、主、客#]('tr')[0-99#场次#]('td')[0-9#比赛类型、日期、主、比（全，上半场）、客、赛果、盘口、盘路、大小、分析#]
 tn32=[('俄罗斯','沙特阿拉伯','埃及','乌拉圭'),('葡萄牙','西班牙','摩洛哥','伊朗'),('法国','澳大利亚','秘鲁','丹麦'),('阿根廷','冰岛','克罗地亚','尼日利亚'),('巴西','瑞士','哥斯达黎加','塞尔维亚'),('德国','墨西哥','瑞典','韩国'),('比利时','巴拿马','突尼斯','英格兰'),('日本','波兰','哥伦比亚','塞内加尔')]
 def invert_dict(d):
     return dict(zip(d.values(),d.keys()))
