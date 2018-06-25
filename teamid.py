@@ -69,3 +69,5 @@ def allteamid(mode=1):
         return tid
 detail_r1=r"(\[<a href=\"http://liansai.166cai.cn/league/149\" id=\"link103\">)([\u4e00-\u9fa5]*)(</a>\])"
 k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
+r2=r"(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})(.*)"
+k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
