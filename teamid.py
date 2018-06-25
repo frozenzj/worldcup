@@ -67,3 +67,5 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
+detail_r1=r"(\[<a href=\"http://liansai.166cai.cn/league/149\" id=\"link103\">)([\u4e00-\u9fa5]*)(</a>\])"
+k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
