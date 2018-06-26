@@ -67,7 +67,10 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
-detail_r1=r"(\[<a href=\"http://liansai.166cai.cn/league/149\" id=\"link103\">)([\u4e00-\u9fa5]*)(</a>\])"
-k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
-r2=r"(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})(.*)"
-k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
+detail_r0=r"(\[<a href=\"http://liansai.166cai.cn/league/149\" id=\"link103\">)([\u4e00-\u9fa5]*)(</a>\])"
+# k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
+detail_r1=r"(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})(.*)"
+# k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
+detail_r2=r"(<td class=\"td_lteam\"><a href=\"http://liansai.166cai.cn/team/912/\" id=\"link104\" style=\"color:#a00000\" target=\"_blank\">)([\u4e00-\u9fa5]*)(</a></td>)"
+detail_r3=r"(<td>\s{0,})([0-9]{1,2})(:<span class=\"red\">)([0-9]{1,2})(</span>\s{0,}\()([0-9]{1,2})(-)([0-9]{1,2})(\)\s{0,}</td>.*)"
+detail_r4=r"(<td class=\"td_rteam\"><a href=\"http://liansai.166cai.cn/team/16/\" id=\"link105\" target=\"_blank\">)([\u4e00-\u9fa5]*)(</a></td>)"
