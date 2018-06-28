@@ -67,14 +67,19 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
-detail_r0=r"((\D+\d+)+\D{2})([\u4e00-\u9fa5]{1,})(\D+)"
-# k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
-detail_r1=r"(.*)([0-9]{4}-[0-9]{2}-[0-9]{2})(.*)"
-# k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
-detail_r2=r"(<td class=\"td_lteam\"><a href=\"http://liansai.166cai.cn/team/912/\" id=\"link104\" style=\"color:#a00000\" target=\"_blank\">)([\u4e00-\u9fa5]*)(</a></td>)"
-detail_r3=r"(<td>\s{0,})([0-9]{1,2})(:<span class=\"red\">)([0-9]{1,2})(</span>\s{0,}\()([0-9]{1,2})(-)([0-9]{1,2})(\)\s{0,}</td>.*)"
-detail_r4=r"(<td class=\"td_rteam\"><a href=\"http://liansai.166cai.cn/team/16/\" id=\"link105\" target=\"_blank\">)([\u4e00-\u9fa5]*)(</a></td>)"
-detail_r5=r"(<td><span class=\"blue\">)([\u4e00-\u9fa5]{1,})(</span></td>)"
-detail_r6=r"(<td><span class=\"red\"></span>)(\*{0,1}[\u4e00-\u9fa5]{1,}/[\u4e00-\u9fa5]{1,})(</td>)"
+def rtest(n):
+    r=requests.get('http://liansai.166cai.cn/team/912/panlumatchs?nums=100')
+    r_s=Bs(r.content,'lxml')
+    k=str(r_s('tbody')[1]('tr')[0]('td')[n])
+    return k
+detail_r0=r"((\D+\d+)+\D{2})(?P<n>[\u4e00-\u9fa5]{1,})(\D+)"
+#k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
+detail_r1=r"(\D*)(?P<n>\d+-\d+-\d+)(.*)"
+#k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
+detail_r2=r"((\D+\d+)+)([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(\D+)"
+detail_r3=r"(\D+)(\d+)(\D+)(\d+)(\D+)(\d+-\d+)(\D+)"
+detail_r4=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
+detail_r5=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
+detail_r6=r"([^\u4e00-\u9fa5\*]+)(?P<n>[\*\u4e00-\u9fa5]+/[\u4e00-\u9fa5]+)(.*)"
 detail_r7=r"(<td><span class=\"blue\" title=\"\[)([\u4e00-\u9fa5]{1,})(\])(\d*.\d*)(\">[\u4e00-\u9fa5]{1,}</span></td>)"
 detail_r8=r"(<td>)([\u4e00-\u9fa5]{1,})(</td>)"
