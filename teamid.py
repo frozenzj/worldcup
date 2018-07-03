@@ -67,19 +67,32 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
-def rtest(n):
+def rtest(n,zkc=1,lw=0):
     r=requests.get('http://liansai.166cai.cn/team/912/panlumatchs?nums=100')
     r_s=Bs(r.content,'lxml')
-    k=str(r_s('tbody')[1]('tr')[0]('td')[n])
+    k=str(r_s('tbody')[zkc]('tr')[lw]('td')[n])
     return k
-detail_r0=r"((\D+\d+)+\D{2})(?P<n>[\u4e00-\u9fa5]{1,})(\D+)"
+#group mode
+#detail_r0=r"((\D+\d+)+\D{2})(?P<n>[\u4e00-\u9fa5]{1,})(\D+)"
+##k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
+#detail_r1=r"(\D*)(?P<n>\d+-\d+-\d+)(.*)"
+##k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
+#detail_r2=r"((\D+\d+)+)([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(\D+)"
+#detail_r3=r"(\D+)(\d+)(\D+)(\d+)(\D+)(\d+-\d+)(\D+)"
+#detail_r4=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
+#detail_r5=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
+#detail_r6=r"([^\*]+)(\*?)([^\u4e00-\u9fa5]+)([\u4e00-\u9fa5]+/?[\u4e00-\u9fa5]*)(.*)"
+#detail_r7=r"(\D+)((\d*.?\d*)?)(\D+)([\u4e00-\u9fa5]+)(\D+)"
+#detail_r8=r"(\D{4})(?P<n>[\u4e00-\u9fa5]+)(\D+)"
+#findall mode
+r0=r"[\u4e00-\u9fa5]{1,}"
 #k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
-detail_r1=r"(\D*)(?P<n>\d+-\d+-\d+)(.*)"
+r1=r"\d+-\d+-\d+"
 #k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
-detail_r2=r"((\D+\d+)+)([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(\D+)"
-detail_r3=r"(\D+)(\d+)(\D+)(\d+)(\D+)(\d+-\d+)(\D+)"
-detail_r4=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
-detail_r5=r"([^\u4e00-\u9fa5]+)(?P<n>[\u4e00-\u9fa5]+)(.*)"
-detail_r6=r"([^\u4e00-\u9fa5\*]+)(?P<n>[\*\u4e00-\u9fa5]+/[\u4e00-\u9fa5]+)(.*)"
-detail_r7=r"(<td><span class=\"blue\" title=\"\[)([\u4e00-\u9fa5]{1,})(\])(\d*.\d*)(\">[\u4e00-\u9fa5]{1,}</span></td>)"
-detail_r8=r"(<td>)([\u4e00-\u9fa5]{1,})(</td>)"
+r2=r"[\u4e00-\u9fa5]+"
+r3=r"(\d+):?\D+:?\D*:?(\d+)\D+(\d+-\d+)"
+r4=r"[\u4e00-\u9fa5]+"
+r5=r"[\u4e00-\u9fa5]+"
+r6=r"[^\*]+(\*?)[^\u4e00-\u9fa5]+([\u4e00-\u9fa5]+/?[\u4e00-\u9fa5]+)"
+r7=r"(\D+)((\d*.?\d*)?)(\D+)([\u4e00-\u9fa5]+)(\D+)"
+r8=r"(\D{4})(?P<n>[\u4e00-\u9fa5]+)(\D+)"
