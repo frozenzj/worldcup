@@ -94,5 +94,8 @@ r3=r"(\d+):?\D+:?\D*:?(\d+)\D+(\d+-\d+)"
 r4=r"[\u4e00-\u9fa5]+"
 r5=r"[\u4e00-\u9fa5]+"
 r6=r"[^\*]+(\*?)[^\u4e00-\u9fa5]+([\u4e00-\u9fa5]+/?[\u4e00-\u9fa5]+)"
-r7=r"(?<=e=)\"\[([\u4e00-\u9fa5]?)\]?(-?\d?\.?\d*)(?=\")"
+r7=r"\D+(\d*.?\d*)\D+([\u4e00-\u9fa5]+)\D+"
 r8=r"[\u4e00-\u9fa5]+"
+rules=[]
+for i in range(9):
+    rules.append(eval("r"+str(i)))
