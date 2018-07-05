@@ -67,11 +67,15 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
-def rtest(n,zkc=1,lw=0):
+def rtest(mode,zkc=1,lw=0,n=0):
     r=requests.get('http://liansai.166cai.cn/team/912/panlumatchs?nums=100')
     r_s=Bs(r.content,'lxml')
-    k=str(r_s('tbody')[zkc]('tr')[lw]('td')[n])
-    return k
+    if mode==1:
+        k=str(r_s('tbody')[zkc]('tr')[lw]('td')[n])
+        return k
+    else:
+        j=len(r_s('tbody')[0]('tr'))
+        return j
 #group mode
 #detail_r0=r"((\D+\d+)+\D{2})(?P<n>[\u4e00-\u9fa5]{1,})(\D+)"
 ##k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
