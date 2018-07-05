@@ -89,17 +89,19 @@ def rtest(mode,zkc=1,lw=0,n=0):
 #detail_r7=r"(\D+)((\d*.?\d*)?)(\D+)([\u4e00-\u9fa5]+)(\D+)"
 #detail_r8=r"(\D{4})(?P<n>[\u4e00-\u9fa5]+)(\D+)"
 #findall mode
-r0=r"[\u4e00-\u9fa5]{1,}"
-#k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
-r1=r"\d+-\d+-\d+"
-#k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
-r2=r"[\u4e00-\u9fa5]+"
-r3=r"(\d+):?\D+:?\D*:?(\d+)\D+(\d+-\d+)"
-r4=r"[\u4e00-\u9fa5]+"
-r5=r"[\u4e00-\u9fa5]+"
-r6=r"[^\*]+(\*?)[^\u4e00-\u9fa5]+([\u4e00-\u9fa5]+/?[\u4e00-\u9fa5]+)"
-r7=r"\D+(\d*.?\d*)\D+([\u4e00-\u9fa5]+)\D+"
-r8=r"[\u4e00-\u9fa5]+"
-rules=[]
-for i in range(9):
-    rules.append(eval("r"+str(i)))
+def rop():
+    r0=r"[\u4e00-\u9fa5]{1,}"
+    #k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
+    r1=r"\d+-\d+-\d+"
+    #k2=re.match(r2,str(r_soup('tbody')[1]('tr')[0]('td')[1]))
+    r2=r"[\u4e00-\u9fa5]+"
+    r3=r"(\d+):?\D+:?\D*:?(\d+)\D+(\d+-\d+)"
+    r4=r"[\u4e00-\u9fa5]+"
+    r5=r"[\u4e00-\u9fa5]+"
+    r6=r"[^\*]+(\*?)[^\u4e00-\u9fa5]+([\u4e00-\u9fa5]+/?[\u4e00-\u9fa5]+)"
+    r7=r"\D+(\d*.?\d*)\D+([\u4e00-\u9fa5]+)\D+"
+    r8=r"[\u4e00-\u9fa5]+"
+    rules=[]
+    for i in range(9):
+        rules.append(eval("r"+str(i)))
+    return rules
