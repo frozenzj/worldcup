@@ -109,3 +109,18 @@ def rop():
     for i in range(9):
         rules.append(eval("r"+str(i)))
     return rules
+def teamlist():
+    i,j,k=0,0,0
+    tl={}
+    rules=rop()
+    tid=allteamid(32)
+    ids=list(chain(*tid))
+    for i in range(len(ids)):
+        tl[i]={}
+        rs=''
+        rs=teamh(ids[i])
+        for j in range(rtest(rs,0)):
+            tl[i][j]={}
+            for k in range(9):
+                tl[i][j][k]=re.findall(rules[k],rtest(rs,1,0,j,k))
+    return tl
