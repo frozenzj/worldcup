@@ -1,6 +1,7 @@
 import re
 from bs4 import BeautifulSoup as Bs
 import requests
+from itertools import chain
 #https://data.huanhuba.com/leagueData/getSingleMatch?seasonId=3057&teamId=27585&type=home
 #https://data.huanhuba.com/leagueData/getSingleMatch?seasonId=3057&teamId=31664&type=home		欧洲杯资格赛
 #https://data.huanhuba.com/leagueData/getTeamTreeList?seasonId=3057			teamtree
