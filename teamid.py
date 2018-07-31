@@ -110,7 +110,7 @@ def rop():
     for i in range(9):
         rules.append(eval("r"+str(i)))
     return rules
-def teamlist():
+def teamdict():
     i,j,k=0,0,0
     tl={}
     rules=rop()
@@ -124,6 +124,29 @@ def teamlist():
             tl[i][j]={}
             for k in range(9):
                 tl[i][j][k]=re.findall(rules[k],rtest(rs,1,0,j,k))
+    return tl
+def teamlist():
+    i,j,k=0,0,0
+    tl=[]
+#    rules=rop()
+    tid=allteamid(32)
+    ids=list(chain(*tid))
+    for i in range(len(ids)):
+        rs=''
+        rs=teamh(ids[i])
+        for j in range(1,rtest(rs,0)):
+#            for k in range(9):
+            templ=[]
+            tempx=[]
+#                tl.append(re.findall(rules[k],rtest(rs,1,0,j,k))[0])
+            for k in rs('tr')[j].stripped_strings:
+                templ.append(k)
+            templ[3]=''.join((templ[3],templ[4]))
+            tempx=templ[3].split()
+            templ[3]=tempx[0]
+            templ[4]=tempx[1]
+            tl.append(templ[0:-1])
+#    np.resize(tl,(-1,9))
     return tl
 rank_h=r'https://www.km28.com/data/fifarank.html'
 def rankbs(rank_h):
