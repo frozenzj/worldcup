@@ -125,3 +125,28 @@ def teamlist():
             for k in range(9):
                 tl[i][j][k]=re.findall(rules[k],rtest(rs,1,0,j,k))
     return tl
+rank_h=r'https://www.km28.com/data/fifarank.html'
+def rankbs(rank_h):
+    r=requests.get(rank_h)
+    rs=Bs(r.content,'lxml')
+    return rs
+def rankrules():
+    ruletitle=r'[^\u4e00-\u9fa5]*([\u4e00-\u9fa5]*).*'
+def rankdict(rankbs):
+    titlel=[]
+    contentnum=len(rankbs('tr'))
+    i=0
+    for i in rankbs('tr')[0].stripped_strings:
+        titlel.append(i)
+    titlel[1]='区域'
+    titlel=titlel[0:-1]
+    contentl=[]
+    i=0
+    j=0
+    for i in range(1,contentnum):
+        contentl.append([])
+        for j in rankbs('tr')[i].stripped_strings:
+            contentl[i-1].append(j)
+        contentl[i-1].insert(1,rankbs('tr')[i].attrs['data-type'])
+    #contentl.insert(0,titlel)
+    return titlel,contentl
