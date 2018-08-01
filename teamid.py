@@ -207,3 +207,49 @@ def rankdict(rankbs):
         contentl[i-1].insert(1,rankbs('tr')[i].attrs['data-type'])
     #contentl.insert(0,titlel)
     return titlel,contentl
+def merge_mnr(m,r):
+    r2c=r.loc[:,['球队','排名']]#提取两列数据
+    r2c=r2c.rename(columns={'球队':'主队'})#改列标题
+    #建立vlookup字典
+    test1={}
+    for i in range(len(r2c)):
+        test1[r2c.iloc[i]['主队']]=r2c.iloc[i]['排名']
+    m['Hrank']=m.主队.map(test1)
+    m['Crank']=m.客队.map(test1)
+    if any(m['Hrank'].isna()):
+        m['Hrank']=m['Hrank'].fillna(0)
+        m['Hrank']=m['Hrank'].astype('int')
+    if any(m['Crank'].isna()):
+        m['Crank']=m['Crank'].fillna(0)
+        m['Crank']=m['Crank'].astype('int')
+    return m
+def anaylisd(match,rankdf):
+    mdf=merge_mnr(match,rankdf)
+    mdf['dist']=mdf['Hrank']-mdf['Crank']
+    df=mdf.loc[:,['主队','比分','客队','赛果','dist']]
+    dff=df[df['dist'].abs()>49]
+    dict1={}
+    dict1['w']=0
+    dict1['-l']=0
+    dict1['-d']=0
+    dict1['-w']=0
+    dict1['d']=0
+    dict1['l']=0
+    for i in range(len(dff)):
+        disct=dff.iloc[i]['dist']
+        wtl=dff.iloc[i]['赛果']
+        if disct>0:
+            if wtl=='胜':
+                dict1['w']+=1
+            elif wtl=='平':
+                dict1['d']+=1
+            else:
+                dict1['l']+=1
+        else:
+            if wtl=='胜':
+                dict1['-w']+=1
+            elif wtl=='平':
+                dict1['-d']+=1
+            else:
+                dict1['-l']+=1
+    return dict1
