@@ -126,7 +126,7 @@ def teamdict():
                 tl[i][j][k]=re.findall(rules[k],rtest(rs,1,0,j,k))
     return tl
 def teamlist():
-    i,j,k=0,0,0
+    i,j=0,0
     tl=[]
 #    rules=rop()
     tid=allteamid(32)
@@ -139,15 +139,49 @@ def teamlist():
             templ=[]
             tempx=[]
 #                tl.append(re.findall(rules[k],rtest(rs,1,0,j,k))[0])
-            for k in rs('tr')[j].stripped_strings:
-                templ.append(k)
-            templ[3]=''.join((templ[3],templ[4]))
-            tempx=templ[3].split()
-            templ[3]=tempx[0]
-            templ[4]=tempx[1]
+#            for k in rs('tr')[j].stripped_strings:
+#                templ.append(k)
+            templ=list(rs('tr')[j].stripped_strings)
+            if len(templ)==11:
+                tempx=''.join((templ[3],templ[4])).split()
+                templ[3]=tempx[0]
+                templ[4]=tempx[1]
+            elif len(templ)==12:
+                if templ[7]=='*':
+                    tempx=''.join((templ[3],templ[4])).split()
+                    templ[3]=tempx[0]
+                    templ[4]=tempx[1]
+                    templ[8]=''.join(templ[7:9])
+                    templ.pop(7)
+                else:
+                    templ[3]=''.join(templ[3:5])
+                    templ.pop(4)
+            elif len(templ)==13:
+                if templ[8]=='*':
+                    templ[3]=''.join(templ[3:5])
+                    templ.pop(4)
+                    templ[8]=''.join(templ[7:9])
+                    templ.pop(7)
+                else:
+                    templ[3]=''.join(templ[3:6])
+                    templ.pop(4)
+                    templ.pop(4)
+            else:
+                templ[3]=''.join(templ[3:6])
+                templ.pop(4)
+                templ.pop(4)
+                templ[8]=''.join(templ[7:9])
+                templ.pop(7)
+#            templ[3]=''.join((templ[3],templ[4]))
+#            tempx=templ[3].split()
+#            templ[3]=tempx[0]
+#            templ[4]=tempx[1]
             tl.append(templ[0:-1])
+    k=list(rs('tr')[0].stripped_strings)
+    k.insert(4,'上半场比分')
+#    tl.insert(0,k[0:-1])
 #    np.resize(tl,(-1,9))
-    return tl
+    return k,tl
 rank_h=r'https://www.km28.com/data/fifarank.html'
 def rankbs(rank_h):
     r=requests.get(rank_h)
