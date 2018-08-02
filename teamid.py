@@ -128,12 +128,15 @@ def teamdict():
             for k in range(9):
                 tl[i][j][k]=re.findall(rules[k],rtest(rs,1,0,j,k))
     return tl
-def teamlist():
+def teamlist(idmode=32):
     i,j=0,0
     tl=[]
 #    rules=rop()
-    tid=allteamid(32)
-    ids=list(chain(*tid))
+    if idmode==32:
+        tid=allteamid(idmode)
+        ids=list(chain(*tid))
+    else:
+        ids=allteamid(idmode)
     for i in range(len(ids)):
         rs=''
         rs=teamh(ids[i])
@@ -246,12 +249,12 @@ def dfscore(mdf):
             mdf.loc[i,'赛果']='lose'
     matchdf=mdf
     return matchdf
-def analysis(match,rank):
+def analysis(match,rank,distance=49):
     m_df=merge_mnr(match,rank)
     m_df=dfscore(m_df)
     m_df['dist']=m_df['Hrank']-m_df['Crank']
     df=m_df.loc[:,['主队','Hs','客队','Cs','赛果','dist']]
-    dff=df[df['dist'].abs()>49]
+    dff=df[df['dist'].abs()>distance]
     dict1={'w':0,'d':0,'l':0}
     for i in range(len(dff)):
         disct=dff.iloc[i]['dist']
