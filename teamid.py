@@ -223,8 +223,9 @@ def merge_mnr(m,r):
     if any(m['Crank'].isna()):
         m['Crank']=m['Crank'].fillna(0)
         m['Crank']=m['Crank'].astype('int')
+    match=m
     return m
-def anaylisd(match,rankdf):
+def analysis(match,rankdf):
     mdf=merge_mnr(match,rankdf)
     mdf['dist']=mdf['Hrank']-mdf['Crank']
     df=mdf.loc[:,['主队','比分','客队','赛果','dist']]
@@ -254,3 +255,15 @@ def anaylisd(match,rankdf):
             else:
                 dict1['-l']+=1
     return dict1
+def dfscore(mdf):
+    dfsplit=pd.DataFrame((x.split(':') for x in mdf.比分),index=mdf.index,columns=['Hs','Cs'])
+    mdf=pd.merge(mdf,dfsplit,right_index=True,left_index=True)
+    for i in range(len(mdf)):
+        if mdf.iloc[i]['Hs']>mdf.iloc[i]['Cs']:
+            mdf.loc[i,'赛果']='win'
+        elif mdf.iloc[i]['Hs']==mdf.iloc[i]['Cs']:
+            mdf.loc[i,'赛果']='draw'
+        else:
+            mdf.loc[i,'赛果']='lose'
+    matchdf=mdf
+    return matchdf
