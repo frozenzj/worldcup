@@ -8,10 +8,10 @@ import pandas as pd
 #https://data.huanhuba.com/leagueData/getTeamTreeList?seasonId=3057			teamtree
 #https://data.huanhuba.com/leagueData/getSingleMatch?seasonId=12654&teamId=31664&type=home		国际友谊赛
 #tbody[0-2#全、主、客#]('tr')[0-99#场次#]('td')[0-9#比赛类型、日期、主、比（全，上半场）、客、赛果、盘口、盘路、大小、分析#]
-tn32=[('俄罗斯','沙特阿拉伯','埃及','乌拉圭'),('葡萄牙','西班牙','摩洛哥','伊朗'),('法国','澳大利亚','秘鲁','丹麦'),('阿根廷','冰岛','克罗地亚','尼日利亚'),('巴西','瑞士','哥斯达黎加','塞尔维亚'),('德国','墨西哥','瑞典','韩国'),('比利时','巴拿马','突尼斯','英格兰'),('日本','波兰','哥伦比亚','塞内加尔')]
-def invert_dict(d):
+
+def invert_dict(d):#字典键-值翻转
     return dict(zip(d.values(),d.keys()))
-def teamid(area=0):
+def teamid(area=0):#获取各地区队名及相应网页编号
     if area==0:
         htmla='http://liansai.166cai.cn/league/176/5776/teams'  #北美nora  35
         teamnum=35
@@ -49,15 +49,18 @@ def teamid(area=0):
 #    h_d=dict(h_s)
 #    h_d_v=invert_dict(h_d)
     return h_s
-def allteamid(mode=1):
-    at=[]
+def allteamid(mode=1):#获取所有队伍名称及id，返回列表
+    at,at1=[],[]
+    tn32=[('俄罗斯','沙特阿拉伯','埃及','乌拉圭'),('葡萄牙','西班牙','摩洛哥','伊朗'),('法国','澳大利亚','秘鲁','丹麦'),('阿根廷','冰岛','克罗地亚','尼日利亚'),('巴西','瑞士','哥斯达黎加','塞尔维亚'),('德国','墨西哥','瑞典','韩国'),('比利时','巴拿马','突尼斯','英格兰'),('日本','波兰','哥伦比亚','塞内加尔')]
     i=0
     for i in range(6):
         at=at+teamid(i)
     tidall=dict(at)
     tnall=invert_dict(tidall)
     if mode==0:
-        return at
+        for i in range(len(at)):
+            at1.append(at[i][0])
+        return at1
     if mode==1:
         return tidall
     if mode==2:
@@ -71,11 +74,11 @@ def allteamid(mode=1):
             for j in range(len(tn32[i])):
                 tid[i].append(tnall[tn32[i][j]])
         return tid
-def teamh(ids):
+def teamh(ids):#根据队伍id返回BS内容
     r=requests.get('http://liansai.166cai.cn/team/%s/panlumatchs?nums=100'%(ids))
     rs=Bs(r.content,'lxml')
     return rs
-def rtest(r_s,mode,zkc=1,lw=0,n=0):
+def rtest(r_s,mode,zkc=1,lw=0,n=0):#根据BS内容，返回各栏位内容
 #    r=requests.get('http://liansai.166cai.cn/team/912/panlumatchs?nums=100')
 #    r_s=Bs(r.content,'lxml')
     if mode==1:
@@ -97,7 +100,7 @@ def rtest(r_s,mode,zkc=1,lw=0,n=0):
 #detail_r7=r"(\D+)((\d*.?\d*)?)(\D+)([\u4e00-\u9fa5]+)(\D+)"
 #detail_r8=r"(\D{4})(?P<n>[\u4e00-\u9fa5]+)(\D+)"
 #findall mode
-def rop():
+def rop():#各栏位正则表达
     r0=r"[\u4e00-\u9fa5]{1,}"
     #k=re.match(detail_r1,str(r_soup('tbody')[1]('tr')[0]('td')[0]('a')))
     r1=r"\d+-\d+-\d+"
@@ -113,7 +116,7 @@ def rop():
     for i in range(9):
         rules.append(eval("r"+str(i)))
     return rules
-def teamdict():
+def teamdict():#根据栏位内容返回列表
     i,j,k=0,0,0
     tl={}
     rules=rop()
@@ -185,17 +188,21 @@ def teamlist(idmode=32):
             tl.append(templ[0:-1])
     k=list(rs('tr')[0].stripped_strings)
     k.insert(4,'上半场比分')
+    k1=k[0:-1]
 #    tl.insert(0,k[0:-1])
 #    np.resize(tl,(-1,9))
-    return k,tl
-rank_h=r'https://www.km28.com/data/fifarank.html'
-def rankbs(rank_h):
+    return k1,tl
+#=======================================#
+
+def rankbsc():
+    rank_h=r'https://www.km28.com/data/fifarank.html'
     r=requests.get(rank_h)
     rs=Bs(r.content,'lxml')
     return rs
-def rankrules():
-    ruletitle=r'[^\u4e00-\u9fa5]*([\u4e00-\u9fa5]*).*'
-def rankdict(rankbs):
+#def rankrules():
+#    ruletitle=r'[^\u4e00-\u9fa5]*([\u4e00-\u9fa5]*).*'
+def rankdict():
+    rankbs=rankbsc()
     titlel=[]
     contentnum=len(rankbs('tr'))
     i=0
@@ -249,7 +256,7 @@ def dfscore(mdf):
             mdf.loc[i,'赛果']='lose'
     matchdf=mdf
     return matchdf
-def analysis(match,rank,distance=49):
+def anaylisd(match,rank,distance=49):
     m_df=merge_mnr(match,rank)
     m_df=dfscore(m_df)
     m_df['dist']=m_df['Hrank']-m_df['Crank']
