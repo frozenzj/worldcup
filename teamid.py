@@ -56,6 +56,8 @@ def allteamid(mode=1):
         at=at+teamid(i)
     tidall=dict(at)
     tnall=invert_dict(tidall)
+    if mode==0:
+        return at
     if mode==1:
         return tidall
     if mode==2:
