@@ -208,6 +208,13 @@ def rankdict(rankbs):
         contentl[i-1].insert(1,rankbs('tr')[i].attrs['data-type'])
     #contentl.insert(0,titlel)
     return titlel,contentl
+#output original matchdf,rankdf
+def testopdf():
+    matcht,matchc=teamlist()
+    rankt,rankc=rankdict()
+    matchdf=pd.DataFrame(matchc,columns=matcht)
+    rankdf=pd.DataFrame(rankc,columns=rankt)
+    return matchdf,rankdf
 def merge_mnr(m,r):
     r2c=r.loc[:,['球队','排名']]#提取两列数据
     r2c=r2c.rename(columns={'球队':'主队'})#改列标题
@@ -224,37 +231,7 @@ def merge_mnr(m,r):
         m['Crank']=m['Crank'].fillna(0)
         m['Crank']=m['Crank'].astype('int')
     match=m
-    return m
-def analysis(match,rankdf):
-    mdf=merge_mnr(match,rankdf)
-    mdf['dist']=mdf['Hrank']-mdf['Crank']
-    df=mdf.loc[:,['主队','比分','客队','赛果','dist']]
-    dff=df[df['dist'].abs()>49]
-    dict1={}
-    dict1['w']=0
-    dict1['-l']=0
-    dict1['-d']=0
-    dict1['-w']=0
-    dict1['d']=0
-    dict1['l']=0
-    for i in range(len(dff)):
-        disct=dff.iloc[i]['dist']
-        wtl=dff.iloc[i]['赛果']
-        if disct>0:
-            if wtl=='胜':
-                dict1['w']+=1
-            elif wtl=='平':
-                dict1['d']+=1
-            else:
-                dict1['l']+=1
-        else:
-            if wtl=='胜':
-                dict1['-w']+=1
-            elif wtl=='平':
-                dict1['-d']+=1
-            else:
-                dict1['-l']+=1
-    return dict1
+    return match
 def dfscore(mdf):
     dfsplit=pd.DataFrame((x.split(':') for x in mdf.比分),index=mdf.index,columns=['Hs','Cs'])
     mdf=pd.merge(mdf,dfsplit,right_index=True,left_index=True)
@@ -267,3 +244,33 @@ def dfscore(mdf):
             mdf.loc[i,'赛果']='lose'
     matchdf=mdf
     return matchdf
+def analysis(match,rank):
+    m_df=merge_mnr(match,rank)
+    m_df=dfscore(m_df)
+    m_df['dist']=m_df['Hrank']-m_df['Crank']
+    df=m_df.loc[:,['主队','Hs','客队','Cs','赛果','dist']]
+    dff=df[df['dist'].abs()>49]
+    dict1={'w':0,'d':0,'l':0}
+    for i in range(len(dff)):
+        disct=dff.iloc[i]['dist']
+        wtl=dff.iloc[i]['赛果']
+        if disct>0:
+            if wtl=='win':
+                dict1['w']+=1
+            elif wtl=='draw':
+                dict1['d']+=1
+            else:
+                dict1['l']+=1
+        else:
+            if wtl=='win':
+                dict1['l']+=1
+            elif wtl=='draw':
+                dict1['d']+=1
+            else:
+                dict1['w']+=1
+    w=dict1['w']
+    d=dict1['d']
+    l=dict1['l']
+    tot=w+d+l
+    print('total:'+str(tot)+'\n'+'winpercentage:'+str(l/tot))
+    return dict1
