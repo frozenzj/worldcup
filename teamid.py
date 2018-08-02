@@ -256,7 +256,7 @@ def dfscore(mdf):
             mdf.loc[i,'赛果']='lose'
     matchdf=mdf
     return matchdf
-def anaylisd(match,rank,distance=49):
+def analysis(match,rank,distance=49):
     m_df=merge_mnr(match,rank)
     m_df=dfscore(m_df)
     m_df['dist']=m_df['Hrank']-m_df['Crank']
