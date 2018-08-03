@@ -287,5 +287,5 @@ def anaylsis(df,distance=49):
     l=dict1['l']
     tot=w+d+l
 #    print('total:'+str(tot)+'\n'+'winpercentage:'+str(l/tot))
-    list1=[tot,round(w/tot,5)]
+    list1=[distance,tot,round(w/tot,5)]
     return list1
