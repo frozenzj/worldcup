@@ -256,17 +256,19 @@ def dfscore(mdf):
             mdf.loc[i,'赛果']='lose'
     matchdf=mdf
     return matchdf
-def analysis(match,rank,distance=49):
+def shortm(match,rank):
     m_df=merge_mnr(match,rank)
     m_df=dfscore(m_df)
     m_df['dist']=m_df['Hrank']-m_df['Crank']
-    df=m_df.loc[:,['主队','Hs','客队','Cs','赛果','dist']]
-    dff=df[df['dist'].abs()>distance]
+    dfm=m_df.loc[:,['主队','Hs','客队','Cs','赛果','dist']]
+    return dfm
+def anaylsis(df,distance=49):
+    dff=df[df['dist'].abs()>=distance]
     dict1={'w':0,'d':0,'l':0}
     for i in range(len(dff)):
         disct=dff.iloc[i]['dist']
         wtl=dff.iloc[i]['赛果']
-        if disct>0:
+        if disct<0:
             if wtl=='win':
                 dict1['w']+=1
             elif wtl=='draw':
@@ -284,5 +286,6 @@ def analysis(match,rank,distance=49):
     d=dict1['d']
     l=dict1['l']
     tot=w+d+l
-    print('total:'+str(tot)+'\n'+'winpercentage:'+str(l/tot))
-    return dict1
+#    print('total:'+str(tot)+'\n'+'winpercentage:'+str(l/tot))
+    list1=[tot,round(w/tot,5)]
+    return list1
